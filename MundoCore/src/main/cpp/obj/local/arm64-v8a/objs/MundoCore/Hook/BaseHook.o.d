@@ -1,0 +1,4 @@
+./obj/local/arm64-v8a/objs/MundoCore/Hook/BaseHook.o: Hook/BaseHook.cpp \
+  Hook/BaseHook.h Log.h
+Hook/BaseHook.h:
+Log.h:

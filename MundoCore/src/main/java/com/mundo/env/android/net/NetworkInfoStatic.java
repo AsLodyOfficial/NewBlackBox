@@ -1,0 +1,14 @@
+package com.mundo.env.android.net;
+
+import java.lang.String;
+import com.mundo.reflection.annotation.BClassNameNotProcess;
+import com.mundo.reflection.annotation.BConstructorNotProcess;
+
+@BClassNameNotProcess("android.net.NetworkInfo")
+public interface NetworkInfoStatic {
+  @BConstructorNotProcess
+  NetworkInfo _new(int type);
+
+  @BConstructorNotProcess
+  NetworkInfo _new(int type, int subType, String typeName, String subTypeName);
+}

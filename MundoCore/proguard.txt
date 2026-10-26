@@ -1,0 +1,93 @@
+############################################
+# CONSUMER PROGUARD RULES (For Apps Using This SDK)
+############################################
+
+# 1. DANGEROUS FOLDERS - DO NOT TOUCH
+-keep class com.mundo.env.** { *; }
+-keep class black.** { *; }
+-keep class top.** { *; }
+-keep class android.** { *; }
+-keep class com.android.** { *; }
+-keep class net_62v.** { *; }
+
+# 2. METHOD & FIELD PROTECTION (PREVENT CRASHES)
+# Preserve methods and fields for reflection and HashMaps.
+# Note: 'activation' is intentionally excluded here so it can be 
+# fully obfuscated (or stay obfuscated if already done).
+-keep class com.mundo.app.** { *; }
+-keepclassmembers class com.mundo.core.** { *; }
+-keep class com.mundo.entity.** { *; }
+-keepclassmembers class com.mundo.fake.** { *; }
+-keepclassmembers class com.mundo.jnihook.** { *; }
+-keepclassmembers class com.mundo.proxy.** { *; }
+-keepclassmembers class com.mundo.utils.** { *; }
+-keep class com.mundo.reflection.akshit.** { *; }
+
+# 3. GLOBAL CLASS PRESERVATION (No Shrinking)
+# Note: com.mundo.activation is excluded so it can be fully shrunk and heavily obfuscated.
+-keep,allowobfuscation class !com.mundo.activation.**, !com.mundo.app.**, !com.mundo.entity.**, com.mundo.** { }
+
+# KEEP MundoCore COMPLETELY INTACT ALWAYS
+-keep class com.mundo.MundoCore { *; }
+
+
+
+# 5. JNI / NATIVE CODE PROTECTION
+-keep class com.mundo.jnihook.jni.JniHook { *; }
+-keepclassmembers class com.mundo.jnihook.jni.JniHook {
+    public static int NATIVE_OFFSET;
+    public static int NATIVE_HANDLE;
+    public static int NATIVE_PTR;
+}
+-keepnames class com.mundo.core.VNative
+-keepclasseswithmembernames class com.mundo.core.VNative {
+    native <methods>;
+}
+-keepclassmembers class com.mundo.core.VNative {
+    public static int getApiLevel();
+    public static int getCallingUid(int);
+    public static java.lang.String redirectPath(java.lang.String);
+    public static java.io.File redirectPath(java.io.File);
+    public static long[] loadEmptyDex();
+    public static <fields>;
+}
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# JNI / C++ REFLECTION KEEP RULES
+-keep class com.mundo.jnihook.MethodUtils { *; }
+-keep class com.mundo.fake.service.SystemPropertyHook { *; }
+-keep class com.mundo.activation.SdkCore {
+    native <methods>;
+    static java.lang.String devId(android.content.Context);
+    static java.lang.String _t(java.lang.String,java.lang.String,java.lang.String);
+    static void _w(android.content.Context,byte[]);
+    static byte[] _r(android.content.Context);
+}
+
+# 6. AIDL INTERFACES & STUBS
+-keep interface * extends android.os.IInterface { *; }
+-keep class * implements android.os.IInterface { *; }
+-keep class **$Stub { *; }
+-keep class **$Stub$Proxy { *; }
+-keep class **$Proxy { *; }
+
+# 7. MANIFEST DECLARED COMPONENTS
+-keep public class * extends android.app.Activity
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.Application
+
+-keep class com.mundo.proxy.ProxyWebActivity { *; }
+-keep class com.mundo.proxy.HostIntentInterceptActivity { *; }
+-keep class com.mundo.proxy.ProxyBroadcastReceiver { *; }
+-keep class com.mundo.proxy.ProxyVpnService { *; }
+-keep class com.mundo.core.system.DaemonService { *; }
+-keep class com.mundo.core.system.DaemonService$DaemonInnerService { *; }
+-keep class com.mundo.app.LauncherActivity { *; }
+-keep class com.mundo.core.system.SystemCallProvider { *; }
+-keep class com.mundo.fake.provider.FileProvider { *; }
+
+# Proxy Process Arrays (P0 - P24)
+-keep class com.mundo.proxy.** { *; }
